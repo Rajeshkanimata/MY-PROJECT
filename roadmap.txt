@@ -1,0 +1,53 @@
+Phase 1: Foundation & Networking
+# Before deploying any code, you must establish a secure "home" for your resources.
+
+# VPC Setup: Create a Custom VPC with a CIDR block (e.g., 10.0.0.0/16).
+
+# Subnetting: Designate Public Subnets for your Load Balancer and NAT Gateways, and Private Subnets for your EKS worker nodes and RDS databases.
+
+# NAT Gateway: Set up NAT Gateways in the public subnets so that your private application pods can reach the internet for updates.
+
+# DNS & CDN: Configure AWS CloudFront and link it to Amazon Route 53 (DNS) to serve your content globally with low latency.
+
+ Phase 2: The Compute Layer (EKS)
+# This is the core of your application where your frontend and backend containers will run.
+
+# EKS Cluster Creation: Provision a private Amazon EKS Cluster.
+
+# Node Groups: Configure Managed Node Groups across multiple Availability Zones (AZ1 and AZ2) for high availability.
+
+# Ingress Controller: Deploy an NGINX Ingress Controller to manage external traffic entering your cluster.
+
+# Auto Scaling: Implement Horizontal Pod Autoscaler (HPA) and Cluster Autoscaler to handle traffic spikes.
+
+ Phase 3: Data & Storage
+# Database Setup: Launch an Amazon RDS MySQL instance. Ensure it is configured for Multi-AZ deployment to prevent data loss if one zone fails.
+
+# Security Groups: Strictly limit access so only the EKS Backend Pods can communicate with the RDS instance.
+
+ Phase 4: CI/CD Pipeline
+# Automating the deployment ensures you can push updates safely and frequently.
+
+# Infrastructure as Code (IaC): Use Terraform (referred to as "Terrefram" in your diagram) to provision all the AWS resources mentioned above.
+
+# Pipeline Automation: Set up GitHub Actions or Jenkins to:
+
+# Build your Docker images.
+
+# Push images to Amazon ECR.
+
+# Deploy updated manifests to your EKS cluster.
+
+# Code Quality: Integrate SonarQube into your pipeline to scan for bugs and security vulnerabilities.
+
+ Phase 5: Monitoring & Security
+# Observability: Deploy Prometheus and Grafana (Anasbilbe/Ansible might be used here for config) to monitor cluster health and performance.
+
+# Security Scans: Use Security Pod Autoscalers and regular node audits to keep the environment hardened.
+
+# Key Technical Challenges to Watch For:
+# IAM Roles: Ensure your EKS nodes have the correct IAM permissions to talk to RDS and ECR.
+
+# Connectivity: Double-check that your routing tables allow private subnets to reach the NAT Gateway.
+
+# Would you like me to provide a sample Terraform script to get you started on the VPC and Networking phase?
