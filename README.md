@@ -1,1 +1,1 @@
-![MY PROJECT architecture ](https://github.com/user-attachments/assets/24d84d22-e3d8-4cb9-9d63-6b9e0ac4106c)
+<img width="1024" height="1024" alt="Gemini_Generated_Image_whlcpwwhlcpwwhlc" src="https://github.com/user-attachments/assets/75cab251-81c5-4dc1-977d-2f42c821df74" />
