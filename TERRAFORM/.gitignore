@@ -1,0 +1,51 @@
+# =========================
+# Terraform (MANDATORY)
+# =========================
+.terraform/
+.terraform.lock.hcl
+
+*.tfstate
+*.tfstate.backup
+*.tfstate.*
+
+crash.log
+crash.*.log
+
+# Override files (local only)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Variable files (secrets risk)
+*.tfvars
+*.tfvars.json
+
+# CLI config
+.terraformrc
+terraform.rc
+
+
+# =========================
+# OS / Editor junk
+# =========================
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+
+# =========================
+# Archives / binaries (JUST NO)
+# =========================
+*.exe
+*.zip
+*.tar
+*.tar.gz
+*.rar
+
+
+# =========================
+# Logs
+# =========================
+*.log
