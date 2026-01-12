@@ -7,7 +7,7 @@ module "bastion_sg" {
 
   name        = "bastion-sg"
   description = "Allow SSH from the internet"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id # Using the variable here!
 
   ingress_with_cidr_blocks = [
     {
@@ -15,10 +15,9 @@ module "bastion_sg" {
       to_port     = 22
       protocol    = "tcp"
       description = "SSH from everywhere"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = var.bastion_ingress_cidr
     }
   ]
-
   egress_rules = ["all-all"]
 }
 
@@ -30,10 +29,8 @@ module "frontend_sg" {
   version = "~> 5.0"
 
   name        = "frontend-sg"
-  description = "Allow SSH only from Bastion"
-  vpc_id      = VPC/module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
-  # This is how you reference another SG as the source
   ingress_with_source_security_group_id = [
     {
       from_port                = 22
@@ -43,7 +40,6 @@ module "frontend_sg" {
       source_security_group_id = module.bastion_sg.security_group_id
     }
   ]
-
   egress_rules = ["all-all"]
 }
 
@@ -55,8 +51,7 @@ module "backend_sg" {
   version = "~> 5.0"
 
   name        = "backend-sg"
-  description = "Allow SSH only from Frontend"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress_with_source_security_group_id = [
     {
@@ -67,7 +62,6 @@ module "backend_sg" {
       source_security_group_id = module.frontend_sg.security_group_id
     }
   ]
-
   egress_rules = ["all-all"]
 }
 
@@ -79,8 +73,7 @@ module "database_sg" {
   version = "~> 5.0"
 
   name        = "database-sg"
-  description = "Allow MySQL/Aurora from Backend"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress_with_source_security_group_id = [
     {
@@ -91,6 +84,5 @@ module "database_sg" {
       source_security_group_id = module.backend_sg.security_group_id
     }
   ]
-
   egress_rules = ["all-all"]
 }

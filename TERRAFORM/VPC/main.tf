@@ -1,35 +1,27 @@
+# This is a wrapper for the official AWS VPC module
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.0"
 
-  name = "my-project-vpc"
+  name = var.vpc_name
   cidr = var.vpc_cidr
 
-  azs             = var.azs
-  
-  # 2 Public Subnets (Bastion + Empty/Load Balancer)
-  public_subnets  = var.public_subnets
-
-  # 4 Private Subnets (2 for Frontend, 2 for Backend)
-  private_subnets = var.private_subnets
-
-  # 2 Database Subnets
+  azs              = var.azs
+  public_subnets   = var.public_subnets
+  private_subnets  = var.private_subnets
   database_subnets = var.database_subnets
 
-  create_database_subnet_group = true # This creates the group RDS needs
+  # NAT Gateway Strategy (Matches your cost-optimized request)
+  enable_nat_gateway     = true
+  single_nat_gateway     = true 
+  one_nat_gateway_per_az = false
 
-  enable_nat_gateway = true
-  single_nat_gateway = false # Keeps High Availability for your Frontend/Backend
-  
-  public_subnet_tags = {
-    "Name" = "public-tier"
-  }
-  
-  private_subnet_tags = {
-    "Name" = "app-tier"
-  }
+  # DNS settings required for EKS and general connectivity
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 
-  database_subnet_tags = {
-    "Name" = "db-tier"
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
   }
 }
